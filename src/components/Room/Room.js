@@ -13,6 +13,7 @@ import LocalHotelIcon from '@material-ui/icons/LocalHotel';
 import WcIcon from '@material-ui/icons/Wc';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import { Button } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,16 +23,6 @@ const useStyles = makeStyles((theme) => ({
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
   avatar: {
     backgroundColor: red[500],
   },
@@ -40,12 +31,13 @@ const useStyles = makeStyles((theme) => ({
 const Room = ({ room }) => {
   const { title, description, imgUrl, bed, capacity, bedType, price, avatar } = room;
 
-  const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const history = useHistory();
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const handleBook = (bedType) => {
+    history.push(`/book/${bedType}`);
   };
+
+  const classes = useStyles();
 
   return (
     <Card className={classes.root}>
@@ -77,10 +69,11 @@ const Room = ({ room }) => {
         <IconButton aria-label="price">
           <AttachMoneyIcon />: {price}
         </IconButton>
-        <Button variant="contained" color="primary">
+        <Button onClick={() => handleBook(bedType)} variant="contained" color="primary">
           Book
         </Button>
       </CardActions>
+
     </Card>
   );
 };
